@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terraform Final Project</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+            scroll-behavior: smooth;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #feb47b;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 0 20px;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            animation: fadeIn 2s ease-out 0.5s backwards;
+        }
+
+        .hero .cta-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            background-color: #fff;
+            color: #ff7e5f;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            animation: fadeIn 2s ease-out 1s backwards;
+        }
+
+        .hero .cta-button:hover {
+            background-color: #feb47b;
+            transform: scale(1.05);
+        }
+
+        .content-section {
+            padding: 100px 50px;
+            text-align: center;
+            background-color: #fff;
+            color: #333;
+            box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ff7e5f;
+        }
+
+        .content-section p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 50px;
+        }
+
+        .content-section .features {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .feature-card {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">026DO-WI23</div>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to Code-Killers Terraform Project</h1>
+        <a href="#about"><button class="cta-button">Discover More</button></a>
+    </section>
+
+    <section id="about" class="content-section">
+        <h2>About This Project</h2>
+        <p>This application was deployed using AWS CI/CD. This project is a culmination of everything We've learned with Terraform.</p>
+    </section>
+
+    <section id="features" class="content-section">
+        <h2>Tools</h2>
+        <div class="features">
+            <div class="feature-card">
+                <h3>AWS CodeBuild</h3>
+                <p>Build and test code.</p>
+            </div>
+            <div class="feature-card">
+                <h3>AWS CodeDeploy</h3>
+                <p>Automate code deployments.</p>
+            </div>
+            <div class="feature-card">
+                <h3>AWS CodePipeline</h3>
+                <p>Automate the different stages of release process.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>&copy; 2024 Terraform Final Project. All rights reserved.</p>
+        <p>Contact: <a href="code-killers@cool.com" style="color: #ff7e5f;">"code-killers@cool.com"</a></p>
+    </footer>
+</body>
+</html>
