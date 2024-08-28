@@ -6,4 +6,6 @@ module "alb" {
   asg_vpc_zone_identifier = [module.subnets.subnet_1_id, module.subnets.subnet_2_id]
   instance_type           = "t2.micro"
   alb-subnets             = [module.subnets.subnet_1_id, module.subnets.subnet_2_id]
+  user_data_app1          = "user_data_app1.sh"
+  user_data_app2          = "user_data_app2.sh"
 }

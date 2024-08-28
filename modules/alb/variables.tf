@@ -28,3 +28,12 @@ variable "instance_type" {
 #   type    = string
 #   default = "project-ssh-keypair"
 # }
+ variable "user_data_app1" {
+   description = "userdate file for app1"
+   default = null
+ }
+
+  variable "user_data_app2" {
+   description = "userdate file for app2"
+   default = null
+ }

@@ -30,17 +30,7 @@ resource "aws_launch_template" "foo" {
     Environment =   var.environment
     }
   }
-
-  user_data = base64encode(<<-EOF
-    #!/bin/bash
-    echo "Starting app1"
-    sudo yum update -y
-    sudo yum install -y httpd
-    sudo systemctl start httpd
-    sudo systemctl enable httpd
-    echo "<html><body><h1>Welcome to app1</h1></body></html>" > /var/www/html/index.html
-  EOF
-  )
+   user_data = filebase64(var.user_data_app1)
 }
 # app2 launch-template
 resource "aws_launch_template" "foo2" {
@@ -74,17 +64,7 @@ resource "aws_launch_template" "foo2" {
     Environment =   var.environment
     }
   }
-
-    user_data = base64encode(<<-EOF
-    #!/bin/bash
-    echo "Starting app1"
-    sudo yum update -y
-    sudo yum install -y httpd
-    sudo systemctl start httpd
-    sudo systemctl enable httpd
-    echo "<html><body><h1>Welcome to app2</h1></body></html>" > /var/www/html/index.html
-  EOF
-  )
+  user_data = filebase64(var.user_data_app2)
 }
 
 # ASG-app1
@@ -170,6 +150,7 @@ resource "aws_lb" "project_alb" {
   subnets            = var.alb-subnets
 
   enable_deletion_protection = false
+  enable_cross_zone_load_balancing = true
 
     tags = {
     Name        =   "${var.environment}-project-lb"
@@ -182,32 +163,40 @@ resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.project_alb.arn
   port              = "80"
   protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app1.arn
+  
+  # default_action {
+  #   type             = "forward"
+  #   target_group_arn = aws_lb_target_group.app1.arn
+  # }
+    default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "default"
+      status_code  = "200"
+    }
   }
 }
 
 # Listener Rule for app1
 resource "aws_lb_listener_rule" "app1-rule" {
   listener_arn = aws_lb_listener.http.arn
-  priority     = 200
+  priority     = 100
 
   action {
     type = "forward"
-    forward {
-      target_group {
-        arn    = aws_lb_target_group.app1.arn
-        weight = 50
-      }
+    # forward {
+    #   target_group {
+    #     arn    = aws_lb_target_group.app1.arn
+    #     weight = 50
+    #   }
 
-      target_group {
-        arn    = aws_lb_target_group.app2.arn
-        weight = 50
-      }
-    }
-
+    #   target_group {
+    #     arn    = aws_lb_target_group.app2.arn
+    #     weight = 50
+    #   }
+    # }
+    target_group_arn = aws_lb_target_group.app1.arn
   }
   # action {
   #   type               = "forward"
@@ -250,22 +239,22 @@ resource "aws_autoscaling_attachment" "app2_asg" {
 #   port             = 80
 # }
 
-# # Listener rule app2 
-# resource "aws_lb_listener_rule" "app2-rule" {
-#   listener_arn = aws_lb_listener.http.arn
-#   priority     = 100
+# Listener rule app2 
+resource "aws_lb_listener_rule" "app2-rule" {
+  listener_arn = aws_lb_listener.http.arn
+  priority     = 200
 
-#   action {
-#     type               = "forward"
-#     target_group_arn   = aws_lb_target_group.app2.arn
-#   }
+  action {
+    type               = "forward"
+    target_group_arn   = aws_lb_target_group.app2.arn
+  }
 
-#   condition {
-#     path_pattern {
-#       values = ["/app2/*"]
-#     }
-#   }
-# }
+  condition {
+    path_pattern {
+      values = ["/app2/*"]
+    }
+  }
+}
 
 
 ## TF resource, NOT AWS -just creates key in backend
